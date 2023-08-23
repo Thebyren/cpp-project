@@ -1,9 +1,9 @@
 #include<iostream>
-
+#include"colores.h"
 using namespace std;
 
 int main()
 {
-    cout<<"inicio";
+    cout<<ROJO<<"inicio"<<RESET<<endl;
     return 0;
 }
