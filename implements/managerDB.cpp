@@ -28,6 +28,8 @@ void SQLiteManager::closeDataBase() {
     }
 }
 
+
+
 void SQLiteManager::querryDataBase(const std::string& querry){
 char* errorMessage = nullptr;
     int rc = sqlite3_exec(db, querry.c_str(), nullptr, nullptr, &errorMessage);
@@ -37,4 +39,18 @@ char* errorMessage = nullptr;
         sqlite3_free(errorMessage); // Liberar memoria del mensaje de error
     }
 
+}
+
+std::string newUser( const dataUser& user) {
+    std::string consulta = "INSERT INTO usuarios (nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, codigoVenta, idPuesto) VALUES (";
+    consulta += "'" + user.nombre + "', ";
+    consulta += "'" + user.apellido + "', ";
+    consulta += "'" + user.fechaNacimiento + "', ";
+    consulta += std::to_string(user.edad) + ", ";
+    consulta += std::to_string(user.antiguedadEmpresa) + ", ";
+    consulta += "'" + user.correo + "', ";
+    consulta += std::to_string(user.codigoVenta) + ", ";
+    consulta += std::to_string(user.idPuesto) + ");";
+
+    return consulta;
 }

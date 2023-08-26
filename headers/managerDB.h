@@ -4,6 +4,20 @@
 #include <string>
 #include <vector>
 
+
+struct dataUser{
+    int id;
+    std::string nombre;
+    std::string apellido;
+    std::string fechaNacimiento;
+    std::vector<std::string> telefonos;
+    std::string ubicacion;
+    int edad;
+    int antiguedadEmpresa;
+    std::string correo;
+    int codigoVenta; // representa la clave foranea en idVenta de la tabla ventas
+    int idPuesto;  // Un identificador que representa la relación con el puesto en otra tabla
+};
 class SQLiteManager{
 public:
     SQLiteManager(const char* dbname);
@@ -14,28 +28,11 @@ public:
     void closeDataBase();
 
     void querryDataBase(const std::string& texto);
+    std::string newUser(const dataUser& user);
 //variables globales
-    
-struct fila_resultado {
-    int id;
-    std::string nombre;
-};
-struct dataUser{
-    int id;
-    std::string nombre;
-    std::string apellido;
-    std::string fechaNacimiento;
-    std::vector<std::string> telefonos;
-    int edad;
-    int antiguedadEmpresa;
-    std::string correo;
-    int codigoVenta; // representa la clave foranea en idVenta de la tabla ventas
-    int idPuesto;  // Un identificador que representa la relación con el puesto en otra tabla
-};
+
 private:
     sqlite3* db; //puntero a la base de datos
-    static int callback(void* data, int argc, char** argv, char** azColName);
-
 };
 
 
