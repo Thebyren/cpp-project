@@ -39,6 +39,8 @@ int main(){
     
     // y eso es como un cin
     string sueldo = userInput(ventana, 6,5, "ingrese su sueldo: "); 
+
+    
     int sueldoINT = stoi(sueldo);
     float sueldoFLOAT = stof(sueldo);
     
