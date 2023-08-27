@@ -4,7 +4,11 @@
 #include <string>
 #include <vector>
 
-
+struct puestos{
+    std::string nombre;
+    float salario;
+    float bonificacion;
+};
 struct dataUser{
     int id;
     std::string nombre;
@@ -19,6 +23,7 @@ struct dataUser{
     int idPuesto;  // Un identificador que representa la relación con el puesto en otra tabla
 };
 class SQLiteManager{
+    sqlite3* db; //puntero a la base de datos
 public:
     SQLiteManager(const char* dbname);
     ~SQLiteManager();
@@ -29,10 +34,11 @@ public:
 
     void querryDataBase(const std::string& texto);
     std::string newUser(const dataUser& user);
+
+    std::vector <dataUser> obtenerRegistrosUsuarios(int id);
 //variables globales
 
 private:
-    sqlite3* db; //puntero a la base de datos
 };
 
 
