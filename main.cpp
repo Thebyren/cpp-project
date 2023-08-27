@@ -34,7 +34,9 @@ int main() {
     
     manager.querryDataBase(manager.newUser(nuevoRegistro));
     
-    vector <dataUser> registro = manager.obtenerRegistrosUsuarios(1);
+    vector <dataUser> registro = manager.obtenerRegistrosUsuarios();
+
+    cout<<"\n\ndatos en el registro\n\n";
     for(const dataUser& usuario:registro){
         cout<<"nombre "<<usuario.nombre<<endl;
         cout<<"apellido "<<usuario.apellido<<endl;

@@ -4,7 +4,7 @@ class menuUser{
     public:
         void menuOption();
     private:
-        int numeroOption();
+        int nOption;
 };
 
 #endif // MENU_H

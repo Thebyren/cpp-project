@@ -35,7 +35,7 @@ public:
     void querryDataBase(const std::string& texto);
     std::string newUser(const dataUser& user);
 
-    std::vector <dataUser> obtenerRegistrosUsuarios(int id);
+    std::vector <dataUser> obtenerRegistrosUsuarios();
 //variables globales
 
 private:

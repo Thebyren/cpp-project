@@ -40,10 +40,10 @@ char* errorMessage = nullptr;
     }
 
 }
-std::vector<dataUser> SQLiteManager::obtenerRegistrosUsuarios(int id) {
+std::vector<dataUser> SQLiteManager::obtenerRegistrosUsuarios() {
         std::vector<dataUser> registros;
 
-        std::string consulta = "SELECT nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, codigoVenta, puesto FROM usuarios where id ="+std::to_string(id)+";";
+        std::string consulta = "SELECT nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, codigoVenta, puesto FROM usuarios ;";
         sqlite3_stmt* stmt;
 
         int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
