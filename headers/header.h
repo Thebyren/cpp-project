@@ -3,7 +3,8 @@
 
 #include<iostream>
 #include<ncurses.h>
-
+#include <string>
+#include "managerDB.h"
 
 
 #endif /* HEADER_H */
