@@ -1,15 +1,16 @@
 #ifndef MENU_H
 #define MENU_H
 #include <ncurses.h>
-
-class Menu{
+#include<vector>
+#include<string>
+class printMenu{
 
     private:
     
     
     public:
-    Menu();
-    ~Menu();
+    printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX);
+    
 
 };
 

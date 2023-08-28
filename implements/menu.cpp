@@ -1,14 +1,11 @@
-#include<ncurses.h>
-#include<string>
-#include<vector>
-
+#include "../headers/menu.h"
 std::vector<std::string> choices={
     "nomina de empleados",
     "ventas",
     "nomina de ventas por empleado",
     "  salir "
 };
-void printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX){
+printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX){
     int selected = 0;
     int choice;
     init_pair(1,COLOR_BLACK,COLOR_BLUE);
@@ -53,19 +50,4 @@ void printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, i
             break;
     }
 }
-int main(){
-    initscr();
-    noecho();
-    start_color();
-    int yMAX,xMAX;
-    getmaxyx(stdscr, yMAX,xMAX);
-    box(stdscr,0,0);
-    wrefresh(stdscr);
-    WINDOW*win = newwin(yMAX/2,xMAX/2,yMAX/4,xMAX/4);
-    box(win,0,0);
-    keypad(win, true);
-    printMenu(win, choices, yMAX/2,xMAX/2);
-    getch();
-    endwin();
-    return 0 ;    
-}
+
