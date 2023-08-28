@@ -1,10 +1,17 @@
 #ifndef MENU_H
 #define MENU_H
-class menuUser{
-    public:
-        void menuOption();
+#include <ncurses.h>
+
+class Menu{
+
     private:
-        int nOption;
+    
+    
+    public:
+    Menu();
+    ~Menu();
+
 };
 
-#endif // MENU_H
+#endif /* MENU_H
+ */
