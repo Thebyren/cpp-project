@@ -40,6 +40,4 @@ public:
 
 private:
 };
-
-
 #endif /* MANAGERDB_H */

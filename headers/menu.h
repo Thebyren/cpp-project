@@ -10,8 +10,8 @@ class printMenu{
     
     public:
     printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX);
-    
-
+    int getSelected();
+    int selected;
 };
 
 #endif /* MENU_H

@@ -1,7 +1,8 @@
 #include "../headers/menu.h"
 printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX){
-    int selected = 0;
+    selected = 0;
     int choice;
+    keypad(win, true);
     init_pair(1,COLOR_BLACK,COLOR_BLUE);
     init_pair(2,COLOR_BLACK,COLOR_MAGENTA);
     init_pair(3,COLOR_BLACK,COLOR_YELLOW);
@@ -43,5 +44,8 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
         if (choice == 10) // Enter key
             break;
     }
+}
+int printMenu::getSelected(){
+    return selected;
 }
 
