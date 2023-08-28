@@ -1,10 +1,4 @@
 #include "../headers/menu.h"
-std::vector<std::string> choices={
-    "nomina de empleados",
-    "ventas",
-    "nomina de ventas por empleado",
-    "  salir "
-};
 printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX){
     int selected = 0;
     int choice;
