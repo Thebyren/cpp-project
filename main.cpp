@@ -1,28 +1,19 @@
 #include "headers/header.h"
-using namespace std;
-
-int xMAX, yMAX;
-
-void inicio(){
-    initscr();
-    start_color();
-    noecho();
-    getmaxyx(stdscr,yMAX,xMAX);
-    keypad(stdscr, true);
-}
-
-void fin(){
-    refresh();
-    clear();
-    printf("finalizo el programa");
-    endwin();
-}
 int main() {
     inicio();
+
     WINDOW* ventana = newwin(yMAX, xMAX, 0,0);
-    printMenu menu(ventana, principalMenu, yMAX, xMAX);
-    int n = menu.getSelected();
+    int n ;
+    while(1){
+        printMenu menu(ventana, principalMenu, yMAX, xMAX);
+        n= menu.getSelected();
+        (objetofuncion.*lista[n])();   
+        if(n == 4){
+            break;
+        }
+    }
+
     fin();
-    cout<<"su seleccion fue: "<<principalMenu[n];
+    std::cout<<"su seleccion fue: "<<principalMenu[n];
     return 0;
 }
