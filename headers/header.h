@@ -6,10 +6,14 @@
 #include <string>
 #include "managerDB.h"
 #include "menu.h"
+
+void (opciones[3]() = {nominaEmpleados, ventas, Sueldos, reportes})
+
 const std::vector<std::string> principalMenu={
-    "nomina de empleados",
+    "registro de empleados",
     "ventas",
-    "nomina de ventas por empleado",
+    "nomina de sueldos",
+    "reportes",
     "  salir "
 };
 
