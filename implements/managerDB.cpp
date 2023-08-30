@@ -68,7 +68,133 @@ std::vector<dataUser> SQLiteManager::obtenerRegistrosUsuarios() {
 
         return registros;
     }
+//se obtienen los datos de los puestos
+std::vector<puestos> SQLiteManager::obtenerPuestos() {
+        std::vector<puestos> registros;
 
+        std::string consulta = "SELECT nombre, salario, bonificacion, idPuesto FROM puestos ;";
+        sqlite3_stmt* stmt;
+
+        int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
+        if (rc == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                puestos puesto;
+                puesto.nombre = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+                puesto.salario = sqlite3_column_double(stmt, 1);
+                puesto.bonificacion = sqlite3_column_double(stmt, 2);
+                puesto.idPuesto = sqlite3_column_int(stmt, 3);
+
+                registros.push_back(puesto);
+            }
+            sqlite3_finalize(stmt);
+        } else {
+            std::cerr << "Error al ejecutar la consulta: " << sqlite3_errmsg(db) << std::endl;
+        }
+
+        return registros;
+    }
+    //se obtienen los datos de los departementos
+    std::vector<departamentos> SQLiteManager::obtenerDepartamentos() {
+        std::vector<departamentos> registros;
+
+        std::string consulta = "SELECT id, nombre FROM  departamentos;";
+        sqlite3_stmt* stmt;
+
+        int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
+        if (rc == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                departamentos departamento;
+                departamento.id = sqlite3_column_double(stmt, 0);
+                departamento.nombre = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+                registros.push_back(departamento);
+            }
+            sqlite3_finalize(stmt);
+        } else {
+            std::cerr << "Error al ejecutar la consulta: " << sqlite3_errmsg(db) << std::endl;
+        }
+
+        return registros;
+    }
+    //se obtienen los datos de los municipios
+    std::vector<municipios> SQLiteManager::obtenerMunicipios(int id){
+        std::vector<municipios> registros;
+
+        std::string consulta = "SELECT id, nombre, departamento_id FROM  municipios where departamento_id = "+std::to_string(id)+";";
+        sqlite3_stmt* stmt;
+
+        int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
+        if (rc == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                municipios municipio;
+                municipio.id = sqlite3_column_double(stmt, 0);
+                municipio.nombre = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+                municipio.idDP = sqlite3_column_double(stmt, 2);
+                registros.push_back(municipio);
+            }
+            sqlite3_finalize(stmt);
+        } else {
+            std::cerr << "Error al ejecutar la consulta: " << sqlite3_errmsg(db) << std::endl;
+        }
+
+        return registros;
+    }
+    //se obtienen los datos de aldeas
+    std::vector<aldeas> SQLiteManager::obtenerAldeas(int id){
+        std::vector<aldeas> registros;
+
+        std::string consulta = "SELECT id, nombre, municipio_id FROM  aldeas where municipio_id = "+std::to_string(id)+";";
+        sqlite3_stmt* stmt;
+
+        int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
+        if (rc == SQLITE_OK) {
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                aldeas aldea;
+                aldea.id = sqlite3_column_double(stmt, 0);
+                aldea.nombre = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+                aldea.idMP = sqlite3_column_double(stmt, 2);
+                registros.push_back(aldea);
+            }
+            sqlite3_finalize(stmt);
+        } else {
+            std::cerr << "Error al ejecutar la consulta: " << sqlite3_errmsg(db) << std::endl;
+        }
+
+        return registros;
+    }
+    std::string SQLiteManager::obtenerUbicacion(int DP, int MP, int AD) {
+    std::string ubicacion, departamento, municipio, aldea;
+    std::string consulta = "SELECT d.nombre AS nombre_departamento, m.nombre AS nombre_municipio, a.nombre AS nombre_aldea FROM departamentos d JOIN municipios m ON d.id = m.departamento_id JOIN aldeas a ON m.id = a.municipio_id WHERE d.id = " + std::to_string(DP) + " AND m.id = " + std::to_string(MP) + " AND a.id = " + std::to_string(AD) + ";";
+    sqlite3_stmt* stmt;
+
+    int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
+    if (rc == SQLITE_OK) {
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            departamento = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+            municipio = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+            aldea = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        }
+        sqlite3_finalize(stmt);
+    } else {
+        std::cerr << "Error al ejecutar la consulta: " << sqlite3_errmsg(db) << std::endl;
+    }
+    ubicacion = departamento + ", " + municipio + ", " + aldea;
+
+    return ubicacion;
+}
+std::string SQLiteManager::newPhone(std::vector<telefonos> registros, int id){
+    std::string consulta = "INSERT INTO telefonos (userId, numero, tipo) VALUES ";
+    for (const telefonos& telefono : registros) {
+        consulta += "(" + std::to_string(id) + ", "; // Se corrigió el cierre de comillas simples
+        consulta += std::to_string(telefono.numero) + ", "; // Convertir el número a cadena
+        consulta += "'" + telefono.tipo + "'),";
+    }
+    
+    // Eliminar la coma y el espacio extra al final
+    consulta = consulta.substr(0, consulta.size() - 1); // Se cambió de -2 a -1 para quitar solo la coma
+    consulta += ";";
+
+    return consulta;
+}
 std::string SQLiteManager::newUser( const dataUser& user) {
     std::string consulta = "INSERT INTO usuarios (nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, codigoVenta, Puesto) VALUES (";
     consulta += "'" + user.nombre + "', ";

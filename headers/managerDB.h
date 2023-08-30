@@ -3,18 +3,36 @@
 #include <sqlite3.h>
 #include <string>
 #include <vector>
-
+struct departamentos{
+    int id;
+    std::string nombre;
+};
+struct municipios{
+    int id;
+    std::string nombre;
+    int idDP;
+};
+struct aldeas{
+    int id; 
+    std::string nombre;
+    int idMP;
+};
+struct telefonos{
+    int id;
+    int numero;
+    std::string tipo;
+};
 struct puestos{
     std::string nombre;
     float salario;
     float bonificacion;
+    int idPuesto;
 };
 struct dataUser{
     int id;
     std::string nombre;
     std::string apellido;
     std::string fechaNacimiento;
-    std::vector<std::string> telefonos;
     std::string ubicacion;
     int edad;
     int antiguedadEmpresa;
@@ -36,6 +54,12 @@ public:
     std::string newUser(const dataUser& user);
 
     std::vector <dataUser> obtenerRegistrosUsuarios();
+    std::vector <puestos> obtenerPuestos();
+    std::vector <departamentos> obtenerDepartamentos();
+    std::vector <municipios> obtenerMunicipios(int id);
+    std::vector <aldeas> obtenerAldeas(int id);
+    std::string obtenerUbicacion(int DP, int MP, int AD);
+    std::string newPhone(std::vector<telefonos> telefonos, int id);
 //variables globales
 
 private:

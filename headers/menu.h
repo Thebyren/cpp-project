@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include<vector>
 #include<string>
+std::string userInput(WINDOW *win, int y, int x, const std::string &message);
 class printMenu{
 
     private:

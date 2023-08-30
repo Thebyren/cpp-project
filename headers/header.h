@@ -11,15 +11,15 @@
 //void (opciones[3]() = {nominaEmpleados, ventas, Sueldos, reportes})
 
 const std::vector<std::string> principalMenu={
-    "registro de empleados",
-    "ventas",
-    "nomina de sueldos",
-    "reportes",
-    "  salir "
+    " registro de empleados ",
+    " ventas ",
+    " nomina de sueldos ",
+    " reportes ",
+    " salir "
 };
 int xMAX, yMAX;
 funciones objetofuncion;
-void (funciones::*lista[4])() = {
+void (funciones::*lista[4])(const ParametrosVentana &params) = {
             &funciones::nominaEmpleados,
             &funciones::ventas,
             &funciones::sueldos,
@@ -32,14 +32,15 @@ void inicio(){
     noecho();
     getmaxyx(stdscr,yMAX,xMAX);
     keypad(stdscr, true);
-    mvprintw(-yMAX,-xMAX,"use las flechas del teclado para seleccionar");
+    refresh();
+    wrefresh(stdscr);
 }
 
 void fin(){
     refresh();
     clear();
-    printf("finalizo el programa");
     endwin();
+    printf(" finalizo el programa ");
 }
 
 #endif /* HEADER_H */
