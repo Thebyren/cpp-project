@@ -3,6 +3,7 @@
 #include <sqlite3.h>
 #include <string>
 #include <vector>
+
 struct departamentos{
     int id;
     std::string nombre;
@@ -22,6 +23,7 @@ struct telefonos{
     int numero;
     std::string tipo;
 };
+
 struct puestos{
     std::string nombre;
     float salario;
@@ -34,10 +36,9 @@ struct dataUser{
     std::string apellido;
     std::string fechaNacimiento;
     std::string ubicacion;
+    std::string correo;
     int edad;
     int antiguedadEmpresa;
-    std::string correo;
-    int codigoVenta; // representa la clave foranea en idVenta de la tabla ventas
     int idPuesto;  // Un identificador que representa la relación con el puesto en otra tabla
 };
 class SQLiteManager{
@@ -60,6 +61,7 @@ public:
     std::vector <aldeas> obtenerAldeas(int id);
     std::string obtenerUbicacion(int DP, int MP, int AD);
     std::string newPhone(std::vector<telefonos> telefonos, int id);
+    int obtenerId();
 //variables globales
 
 private:

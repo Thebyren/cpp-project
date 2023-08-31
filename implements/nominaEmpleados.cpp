@@ -11,12 +11,12 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
     dataUser usuario;
 
     SQLiteManager manager("base.db");
+    usuario.id = manager.obtenerId() - 1;
     clear();
     refresh();
-    WINDOW *win = newwin(params.yMAX, params.xMAX-1, 0, 0);
+    WINDOW *win = newwin(params.yMAX, params.xMAX - 1, 0, 0);
     box(win, 0, 0);
     wrefresh(win);
-    usuario.id = 1;
     usuario.nombre = userInput(win, 2, 2, "ingresa tu nombre: ");
     usuario.apellido = userInput(win, 4, 2, "ingresa tu apellido: ");
     WINDOW *winAux = newwin(params.yMAX, params.xMAX / 2, 0, params.xMAX / 2);
@@ -33,6 +33,12 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
         box(winAux, 0, 0);
         wrefresh(winAux);
     }
+    std::string nombresPuestos[] = {
+        "Administrador",
+        "Vendedor",
+        "Auxiliar de vendedor",
+        "Encargador de bodega",
+        "Encargado de limpieza"};
     usuario.idPuesto = std::stoi(userInput(win, 6, 2, "selecciona el id del puesto: "));
     wclear(winAux);
     std::vector<departamentos> departamento = manager.obtenerDepartamentos();
@@ -77,7 +83,9 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
     }
     int AD = std::stoi(userInput(win, 12, 2, "ingrese el id de aldea: "));
     wclear(winAux);
+    box(win, 0, 0);
     wrefresh(winAux);
+    wrefresh(win);
     usuario.ubicacion = manager.obtenerUbicacion(DP, MP, AD);
     usuario.correo = userInput(win, 14, 2, "ingrese su correo electronico: ");
     std::vector<telefonos> registros;
@@ -111,7 +119,7 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
         registros.push_back(telefono);
     }
 
-    int row = 6;
+    int row = 5;
     for (const telefonos &telefono : registros)
     {
         mvwprintw(winAux, row * 2, 4, "telefono: %d", telefono.numero); // Cambiar %d a %s si 'numero' es una cadena
@@ -128,27 +136,49 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
     // Calcular la edad aproximada
     int anioActual = ObtenerAnioActual(); // Cambia esto con el año actual
     usuario.edad = anioActual - anioNacimiento;
-    mvwprintw(winAux, 18,4,"la edad es: %d", usuario.edad);
+    mvwprintw(winAux, 18, 4, "la edad es: %d", usuario.edad);
+    mvwprintw(winAux, 20, 4, "ingrese su antiguedad en la empresa en anios.");
+    usuario.antiguedadEmpresa = std::stoi(userInput(winAux, 21, 4, "anios: "));
 
-    usuario.antiguedadEmpresa = std::stoi(userInput(winAux, 20, 4, "ingrese su antiguedad en la empresa: "));
-    wgetch(winAux);
-
-    
-    manager.querryDataBase(manager.newPhone(registros, usuario.id));
-    getch();
     wclear(winAux);
     wdeleteln(winAux);
+    manager.querryDataBase(manager.newUser(usuario));
+    manager.querryDataBase(manager.newPhone(registros, usuario.id));
 
     // finaliza la instancia general
     refresh();
     box(win, 0, 0);
+    wclear(win);
     wrefresh(win);
-    std::string msg = " enter para salir ";
     start_color();
+    init_pair(1, COLOR_WHITE,COLOR_BLUE);
+    wattron(win, COLOR_PAIR(1));
+    std::string n = usuario.nombre;
+    mvwprintw(win, (params.yMAX / 2) - 9, (params.xMAX / 2) - 30, "Nombres: %s", n.c_str());
+    n = usuario.apellido; 
+    mvwprintw(win, (params.yMAX / 2) - 8, (params.xMAX / 2) - 30, "Apellidos: %s", n.c_str());
+    n = nombresPuestos[usuario.idPuesto];
+    mvwprintw(win, (params.yMAX / 2) - 7, (params.xMAX / 2) - 30, "Puesto: %s",n.c_str());
+    n = usuario.ubicacion;
+    mvwprintw(win, (params.yMAX / 2) - 6, (params.xMAX / 2) - 30, "Direccion: %s",n.c_str());
+    fila = 1;
+    for (const telefonos &telefono : registros)
+    {
+        n =telefono.tipo;
+        std::string m = "Telefono de " + n+ ": " + std::to_string(telefono.numero);
+        mvwprintw(win, (params.yMAX/2) - 6 + fila, (params.xMAX/2)-30, m.c_str());
+        fila++;
+    };
+    n=usuario.correo;
+    mvwprintw(win, (params.yMAX / 2) - 3, (params.xMAX / 2) - 30, "Correo: %s", n.c_str());
+    n=std::to_string(usuario.antiguedadEmpresa)+" anios";
+    mvwprintw(win, (params.yMAX / 2) - 2, (params.xMAX / 2) - 30, "Experiencia en la empresa: %s",n.c_str());
+    wattroff(win, COLOR_PAIR(1));
+    box(win,0,0);
+    std::string msg = " enter para salir ";
     wattron(win, A_REVERSE);
     mvwprintw(win, params.yMAX - 1, (params.xMAX / 2) - (msg.size() / 2), msg.c_str());
     wattroff(win, A_REVERSE);
     wrefresh(win);
-
     getch();
 };
