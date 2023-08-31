@@ -11,7 +11,7 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
     dataUser usuario;
 
     SQLiteManager manager("base.db");
-    usuario.id = manager.obtenerId() - 1;
+    usuario.id = manager.obtenerId() + 1;
     clear();
     refresh();
     WINDOW *win = newwin(params.yMAX, params.xMAX - 1, 0, 0);
