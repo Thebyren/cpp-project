@@ -271,7 +271,7 @@ int SQLiteManager::obtenerIdVenta()
 dataUser SQLiteManager::obtenerDatosEmpleado(int id)
 {
     dataUser user;
-    std::string consulta = "SELECT id, nombres, apellidos, puesto, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico FROM usuarios WHERE id = "+std::to_string(id)+";";
+    std::string consulta = "SELECT id, nombres, apellidos, puesto, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico FROM usuarios WHERE id = " + std::to_string(id) + ";";
     sqlite3_stmt *stmt;
 
     int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
@@ -279,15 +279,14 @@ dataUser SQLiteManager::obtenerDatosEmpleado(int id)
     {
         if (sqlite3_step(stmt) == SQLITE_ROW)
         {
-            user.id= sqlite3_column_int(stmt, 0);
-            user.nombre= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+            user.id = sqlite3_column_int(stmt, 0);
+            user.nombre = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
             user.apellido = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
             user.idPuesto = sqlite3_column_int(stmt, 3);
             user.fechaNacimiento = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
             user.edad = sqlite3_column_int(stmt, 5);
             user.antiguedadEmpresa = sqlite3_column_int(stmt, 6);
-            user.correo= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7));
-
+            user.correo = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7));
         }
         else
         {

@@ -2,8 +2,9 @@
 #include "../headers/managerDB.h"
 #include "../headers/menu.h"
 #include <cstdarg>
-#include<string.h>
-void msgCustom(WINDOW* win, int y, int x, const char* format, ...) {
+#include <string.h>
+void msgCustom(WINDOW *win, int y, int x, const char *format, ...)
+{
     va_list args;
     va_start(args, format);
     wmove(win, y, x);

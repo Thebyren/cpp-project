@@ -6,7 +6,7 @@ int main()
         inicio();
 
         WINDOW *ventana = newwin(yMAX, xMAX, 0, 0);
-    
+
         int n;
 
         ParametrosVentana paramsWin;
