@@ -1,42 +1,42 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-#include<iostream>
-#include<ncurses.h>
+#include <iostream>
+#include <ncurses.h>
 #include <string>
 #include "managerDB.h"
 #include "menu.h"
-#include"funciones.h"
+#include "funciones.h"
 
-//void (opciones[3]() = {nominaEmpleados, ventas, Sueldos, reportes})
+// void (opciones[3]() = {nominaEmpleados, ventas, Sueldos, reportes})
 
-const std::vector<std::string> principalMenu={
+const std::vector<std::string> principalMenu = {
     " registro de empleados ",
     " ventas ",
     " nomina de sueldos ",
     " reportes ",
-    " salir "
-};
+    " salir "};
 int xMAX, yMAX;
 funciones objetofuncion;
 void (funciones::*lista[4])(const ParametrosVentana &params) = {
-            &funciones::nominaEmpleados,
-            &funciones::ventas,
-            &funciones::sueldos,
-            &funciones::reportes
-};
+    &funciones::nominaEmpleados,
+    &funciones::ventas,
+    &funciones::sueldos,
+    &funciones::reportes};
 
-void inicio(){
+void inicio()
+{
     initscr();
     start_color();
     noecho();
-    getmaxyx(stdscr,yMAX,xMAX);
+    getmaxyx(stdscr, yMAX, xMAX);
     keypad(stdscr, true);
     refresh();
     wrefresh(stdscr);
 }
 
-void fin(){
+void fin()
+{
     refresh();
     clear();
     endwin();

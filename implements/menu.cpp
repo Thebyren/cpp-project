@@ -2,6 +2,7 @@
 printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int yMAX, int xMAX){
     selected = 0;
     int choice;
+    WINDOW * titulo = newwin(yMAX/3,xMAX-10,1,5);
     keypad(win, true);
     init_pair(1,COLOR_BLACK,COLOR_BLUE);
     init_pair(2,COLOR_BLACK,COLOR_MAGENTA);
@@ -11,13 +12,15 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
     init_pair(6,COLOR_BLACK,COLOR_YELLOW);
     init_pair(7,COLOR_WHITE,COLOR_RED);
     init_pair(8, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(10, COLOR_YELLOW, COLOR_BLACK);
     const std::string aviso = " use las flechas del teclado para desplazarse, use enter para seleccionar";
     while (1) {
         werase(win); // Borrar el contenido de la ventana
         box(win, 0, 0);
-
+        box(titulo,0,0);
         for (int i = 1; i < 1+choices.size(); i++) {
             
+            box(titulo,0,0);
             if (i-1 == selected)
                 wattron(win, COLOR_PAIR(i));
             box(win,0,0);
@@ -28,10 +31,23 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
             
             mvwprintw(win,yMAX-1,(xMAX/2)-(aviso.length()/2),aviso.c_str());
             wattroff(win, COLOR_PAIR(7));
-
         }
 
+        box(titulo, 0,0);   
         wrefresh(win);
+        wattron(titulo, COLOR_PAIR(10));
+        std::string ascii1 = "  _             \t _  _                        \t _   _ _  _  _   ";
+        std::string ascii2 = " | _| _ _ _ _  _ \t| \\| |_  _ _   _ _ _ _  \t| | | | \\| |/ _ \\ ";
+        std::string ascii3 = " | _/ _` | ' \\(_-<\t| .` | || | '  \\/ -_) '_/ _ \\ \t| |_| | .` | (_) |";
+        std::string ascii4 = " |_|\\__,_|_||_/__/\t|_|\\_|\\_,_|_|_|_\\___|_| \\___/\t \\___/|_|\\_|\\___/ ";
+        std::string mensaje2 = "fans numero UNO, control de procesos super importantes";
+        mvwprintw(titulo, 2, (xMAX/2)-(5+ascii4.length()/2), ascii1.c_str());
+        mvwprintw(titulo, 3, (xMAX/2)-(5+ascii4.length()/2), ascii2.c_str());
+        mvwprintw(titulo, 4, (xMAX/2)-(5+ascii4.length()/2), ascii3.c_str());
+        mvwprintw(titulo, 5, (xMAX/2)-(5+ascii4.length()/2), ascii4.c_str());
+        wattroff(titulo, COLOR_PAIR(10));
+        mvwprintw(titulo, 7, (xMAX/2)-(4+mensaje2.length()/2), mensaje2.c_str());
+        wrefresh(titulo);
 
         choice = wgetch(win);
         switch (choice) {
@@ -52,6 +68,8 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
         if (choice == 10) // Enter key
             break;
     }
+    box(titulo, 0,0);
+    wdeleteln(titulo);
 }
 int printMenu::getSelected(){
     return selected;
