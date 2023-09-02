@@ -18,7 +18,7 @@ const std::vector<std::string> principalMenu = {
     " salir "};
 int xMAX, yMAX;
 funciones objetofuncion;
-void (funciones::*lista[4])(const ParametrosVentana &params) = {
+bool(funciones::*lista[4])(const ParametrosVentana &params) = {
     &funciones::nominaEmpleados,
     &funciones::ventas,
     &funciones::sueldos,

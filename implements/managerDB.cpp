@@ -52,7 +52,7 @@ std::vector<dataUser> SQLiteManager::obtenerRegistrosUsuarios()
 {
     std::vector<dataUser> registros;
 
-    std::string consulta = "SELECT nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, puesto FROM usuarios ;";
+    std::string consulta = "SELECT nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, puesto, id, ubicacion FROM usuarios ;";
     sqlite3_stmt *stmt;
 
     int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
@@ -68,6 +68,8 @@ std::vector<dataUser> SQLiteManager::obtenerRegistrosUsuarios()
             usuario.antiguedadEmpresa = sqlite3_column_int(stmt, 4);
             usuario.correo = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5));
             usuario.idPuesto = sqlite3_column_int(stmt, 6);
+            usuario.id = sqlite3_column_int(stmt, 7);
+            usuario.ubicacion = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 8));
 
             registros.push_back(usuario);
         }
@@ -271,7 +273,7 @@ int SQLiteManager::obtenerIdVenta()
 dataUser SQLiteManager::obtenerDatosEmpleado(int id)
 {
     dataUser user;
-    std::string consulta = "SELECT id, nombres, apellidos, puesto, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico FROM usuarios WHERE id = " + std::to_string(id) + ";";
+    std::string consulta = "SELECT id, nombres, apellidos, puesto, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, ubicacion FROM usuarios WHERE id = " + std::to_string(id) + ";";
     sqlite3_stmt *stmt;
 
     int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
@@ -287,6 +289,7 @@ dataUser SQLiteManager::obtenerDatosEmpleado(int id)
             user.edad = sqlite3_column_int(stmt, 5);
             user.antiguedadEmpresa = sqlite3_column_int(stmt, 6);
             user.correo = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7));
+            user.ubicacion = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 8));
         }
         else
         {
@@ -360,7 +363,31 @@ prestaciones SQLiteManager::obtenerPrestaciones(double sueldo)
 
     return datos;
 }
+std::vector<telefonos> SQLiteManager::obtenerTelefonos(int id){
+    std::vector<telefonos> registros;
+    std::string consulta = "SELECT userId, numero, tipo FROM telefonos where userId = " +std::to_string(id)+";";
+    sqlite3_stmt *stmt;
 
+    int rc = sqlite3_prepare_v2(db, consulta.c_str(), -1, &stmt, nullptr);
+    if (rc == SQLITE_OK)
+    {
+        while (sqlite3_step(stmt) == SQLITE_ROW)
+        {
+        telefonos telefono;
+        telefono.id = sqlite3_column_int(stmt, 0);
+        telefono.numero = sqlite3_column_int(stmt, 1);
+        telefono.tipo = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+        registros.push_back(telefono);
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        std::cerr << "Error al ejecutar la consulta: " << sqlite3_errmsg(db) << std::endl;
+    }
+
+    return registros;
+}
 std::string SQLiteManager::newPhone(std::vector<telefonos> registros, int id)
 {
     std::string consulta = "INSERT INTO telefonos (userId, numero, tipo) VALUES ";
@@ -389,14 +416,15 @@ std::string SQLiteManager::newVenta(const ventasUser &venta)
 }
 std::string SQLiteManager::newUser(const dataUser &user)
 {
-    std::string consulta = "INSERT INTO usuarios (nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, Puesto) VALUES (";
+    std::string consulta = "INSERT INTO usuarios (nombres, apellidos, fechaNacimiento, edad, antiguedadEmpresa, correoElectronico, Puesto, ubicacion) VALUES (";
     consulta += "'" + user.nombre + "', ";
     consulta += "'" + user.apellido + "', ";
     consulta += "'" + user.fechaNacimiento + "', ";
     consulta += std::to_string(user.edad) + ", ";
     consulta += std::to_string(user.antiguedadEmpresa) + ", ";
     consulta += "'" + user.correo + "', ";
-    consulta += std::to_string(user.idPuesto) + ");";
+    consulta += std::to_string(user.idPuesto) + ",";
+    consulta += "'"+user.ubicacion+"');";
 
     return consulta;
 }

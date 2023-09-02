@@ -1,8 +1,6 @@
 #include "../headers/funciones.h"
 #include "../headers/managerDB.h"
 #include "../headers/menu.h"
-#include <cstdarg>
-#include <string.h>
 void msgCustom(WINDOW *win, int y, int x, const char *format, ...)
 {
     va_list args;
@@ -18,7 +16,7 @@ void msgCustom(WINDOW *win, int y, int x, const char *format, ...)
     mvwhline(win, y + 1, x, ACS_S1, strlen(buffer));
     wattroff(win, COLOR_PAIR(8));
 }
-void funciones::sueldos(const ParametrosVentana &params)
+bool funciones::sueldos(const ParametrosVentana &params)
 {
     WINDOW *win = newwin(params.yMAX, params.xMAX, 0, 0);
     SQLiteManager manager("base.db");
@@ -71,4 +69,5 @@ void funciones::sueldos(const ParametrosVentana &params)
 
     wgetch(win);
     wdeleteln(win);
+    return false;
 };

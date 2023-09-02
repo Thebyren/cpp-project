@@ -9,11 +9,17 @@ struct ParametrosVentana {
 };
 class funciones {
 public:
-    void nominaEmpleados(const ParametrosVentana& params);
-    void ventas(const ParametrosVentana& params);
-    void reportes(const ParametrosVentana& params);
-    void sueldos(const ParametrosVentana& params);
-
+    bool nominaEmpleados(const ParametrosVentana& params);
+    bool ventas(const ParametrosVentana& params);
+    bool reportes(const ParametrosVentana& params);
+    bool sueldos(const ParametrosVentana& params);
 };
+class reportes{
+public:
+    void DatosGenerales(const ParametrosVentana& params);
+    void NominaGeneral(const ParametrosVentana& params);
+    void Salarios(const ParametrosVentana& params);
+};
+
 
 #endif /* FUNCIONES_H */

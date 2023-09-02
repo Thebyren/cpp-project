@@ -4,6 +4,7 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
     selected = 0;
     int choice;
     WINDOW *titulo = newwin(yMAX / 3, xMAX - 10, 1, 5);
+    WINDOW * creditos = newwin(yMAX/3,xMAX-10,4+yMAX/2,4);
     keypad(win, true);
     init_pair(1, COLOR_BLACK, COLOR_BLUE);
     init_pair(2, COLOR_BLACK, COLOR_MAGENTA);
@@ -14,6 +15,8 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
     init_pair(7, COLOR_WHITE, COLOR_RED);
     init_pair(8, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(10, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(12, COLOR_RED, COLOR_BLACK);
+    
     const std::string aviso = " use las flechas del teclado para desplazarse, use enter para seleccionar";
     while (1)
     {
@@ -38,6 +41,23 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
 
         box(titulo, 0, 0);
         wrefresh(win);
+        wattron(creditos, COLOR_PAIR(12));
+        box(creditos, 0,0);
+        std::string integrante1 = "byron yobani escobar quinonez";
+        std::string integrante2 = "kein eduardo salguero monzon";
+        std::string integrante3 = "victor daniel sosa lopez";
+        std::string integrante4 = "luis alejandro jimenes medrano";
+        std::string integrante5 = "byron rene pastor flores";
+        std::string integrante6 = "kevin emanol medrano castillo";
+        mvwprintw(creditos, 5, -3+(xMAX/2)-(integrante1.size()/2), integrante1.c_str());
+        mvwprintw(creditos, 6, -3+(xMAX/2)-(integrante2.size()/2), integrante2.c_str());
+        mvwprintw(creditos, 7, -3+(xMAX/2)-(integrante3.size()/2), integrante3.c_str());
+        mvwprintw(creditos, 8, -3+(xMAX/2)-(integrante4.size()/2), integrante4.c_str());
+        mvwprintw(creditos, 9, -3+(xMAX/2)-(integrante5.size()/2), integrante5.c_str());
+        mvwprintw(creditos, 10,-3+ (xMAX/2)-(integrante6.size()/2), integrante6.c_str());
+        wattroff(creditos, COLOR_PAIR(12));
+        wrefresh(creditos);
+
         wattron(titulo, COLOR_PAIR(10));
         std::string ascii1 = "  _             \t _  _                        \t _   _ _  _  _   ";
         std::string ascii2 = " | _| _ _ _ _  _ \t| \\| |_  _ _   _ _ _ _  \t| | | | \\| |/ _ \\ ";
@@ -69,11 +89,9 @@ printMenu::printMenu(WINDOW *win, const std::vector<std::string> &choices, int y
             break;
         }
 
-        if (choice == 10) // Enter key
+        if (choice == 10) // Enter 
             break;
     }
-    box(titulo, 0, 0);
-    wdeleteln(titulo);
 }
 int printMenu::getSelected()
 {

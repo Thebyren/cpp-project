@@ -7,7 +7,7 @@ int main()
 
         WINDOW *ventana = newwin(yMAX, xMAX, 0, 0);
 
-        int n;
+        int n ;
 
         ParametrosVentana paramsWin;
         paramsWin.ventana = ventana;
@@ -18,16 +18,25 @@ int main()
         {
             printMenu menu(ventana, principalMenu, yMAX, xMAX);
 
-            n = menu.getSelected();
-            (objetofuncion.*lista[n])(paramsWin);
             if (n == 4)
             {
+                break;
+            }
+            n = menu.getSelected();
+            bool salir = (objetofuncion.*lista[n])(paramsWin);
+            if(salir == true){
+                mvwprintw(ventana, 8,7,"hola");
+                continue;
+            }
+            if(n == 4){
+                delwin(ventana);
                 break;
             }
         }
 
         fin();
         std::cout << "su seleccion fue: " << principalMenu[n];
+        
         return 0;
     }
 }

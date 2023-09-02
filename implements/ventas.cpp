@@ -2,7 +2,7 @@
 #include "../headers/managerDB.h"
 #include "../headers/menu.h"
 
-void funciones::ventas(const ParametrosVentana &params)
+bool funciones::ventas(const ParametrosVentana &params)
 {
     SQLiteManager manager("base.db");
     ventasUser venta;
@@ -23,4 +23,5 @@ void funciones::ventas(const ParametrosVentana &params)
     wrefresh(win);
     wgetch(win);
     wdeleteln(win);
+    return false;
 };

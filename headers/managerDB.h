@@ -92,6 +92,7 @@ public:
     std::vector<departamentos> obtenerDepartamentos();
     std::vector<municipios> obtenerMunicipios(int id);
     std::vector<aldeas> obtenerAldeas(int id);
+    std::vector<telefonos> obtenerTelefonos(int id);
     std::string obtenerUbicacion(int DP, int MP, int AD);
     int obtenerId();
     int obtenerIdVenta();

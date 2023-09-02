@@ -5,20 +5,20 @@
 #include <cctype>
 #include <algorithm>
 
-void funciones::nominaEmpleados(const ParametrosVentana &params)
+bool funciones::nominaEmpleados(const ParametrosVentana &params)
 {
     dataUser usuario;
     SQLiteManager manager("base.db");
-    
+
     usuario.id = manager.obtenerId() + 1;
     clear();
     refresh();
     WINDOW *win = newwin(params.yMAX, params.xMAX - 1, 0, 0);
-    init_pair(1,COLOR_CYAN,COLOR_BLACK);
+    init_pair(1, COLOR_CYAN, COLOR_BLACK);
     start_color();
-    wattron(win,COLOR_PAIR(1));
+    wattron(win, COLOR_PAIR(1));
     box(win, 0, 0);
-    wattroff(win,COLOR_PAIR(1));
+    wattroff(win, COLOR_PAIR(1));
     wrefresh(win);
     usuario.nombre = userInput(win, 2, 2, "ingresa tu nombre: ");
     usuario.apellido = userInput(win, 4, 2, "ingresa tu apellido: ");
@@ -33,9 +33,9 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
         std::string mensaje = "id " + std::to_string(idP) + " " + n;
         mvwprintw(winAux, fila, (params.xMAX / 4) - 30, mensaje.c_str());
         fila++;
-        wattron(winAux,COLOR_PAIR(1));
+        wattron(winAux, COLOR_PAIR(1));
         box(winAux, 0, 0);
-        wattroff(winAux,COLOR_PAIR(1));
+        wattroff(winAux, COLOR_PAIR(1));
         wrefresh(winAux);
     }
     std::string nombresPuestos[] = {
@@ -55,9 +55,9 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
         std::string mensaje = "id: " + std::to_string(idDP) + " " + nP;
         mvwprintw(winAux, fila, (params.xMAX / 4) - 30, mensaje.c_str());
         fila++;
-        wattron(winAux,COLOR_PAIR(1));
+        wattron(winAux, COLOR_PAIR(1));
         box(winAux, 0, 0);
-        wattroff(winAux,COLOR_PAIR(1));
+        wattroff(winAux, COLOR_PAIR(1));
         wrefresh(winAux);
     }
     int DP = std::stoi(userInput(win, 8, 2, "ingrese id del Departamento: "));
@@ -71,9 +71,9 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
         std::string mensaje = "id: " + std::to_string(idDP) + " " + nP;
         mvwprintw(winAux, fila, (params.xMAX / 4) - 30, mensaje.c_str());
         fila++;
-        wattron(winAux,COLOR_PAIR(1));
+        wattron(winAux, COLOR_PAIR(1));
         box(winAux, 0, 0);
-        wattroff(winAux,COLOR_PAIR(1));
+        wattroff(winAux, COLOR_PAIR(1));
         wrefresh(winAux);
     }
     int MP = std::stoi(userInput(win, 10, 2, "ingrese el id del municipio: "));
@@ -87,16 +87,16 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
         std::string mensaje = "id: " + std::to_string(idDP) + " " + nP;
         mvwprintw(winAux, fila, (params.xMAX / 4) - 30, mensaje.c_str());
         fila++;
-        wattron(winAux,COLOR_PAIR(1));
+        wattron(winAux, COLOR_PAIR(1));
         box(winAux, 0, 0);
-        wattroff(winAux,COLOR_PAIR(1));
+        wattroff(winAux, COLOR_PAIR(1));
         wrefresh(winAux);
     }
     int AD = std::stoi(userInput(win, 12, 2, "ingrese el id de aldea: "));
     wclear(winAux);
-    wattron(win,COLOR_PAIR(1));
+    wattron(win, COLOR_PAIR(1));
     box(win, 0, 0);
-    wattroff(win,COLOR_PAIR(1));
+    wattroff(win, COLOR_PAIR(1));
     wrefresh(winAux);
     wrefresh(win);
     usuario.ubicacion = manager.obtenerUbicacion(DP, MP, AD);
@@ -104,9 +104,9 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
     std::vector<telefonos> registros;
     for (int i = 0; i < 3; i++)
     {
-        wattron(winAux,COLOR_PAIR(1));
+        wattron(winAux, COLOR_PAIR(1));
         box(winAux, 0, 0);
-        wattroff(winAux,COLOR_PAIR(1));
+        wattroff(winAux, COLOR_PAIR(1));
         std::string tipos[3] = {
             "casa", "trabajo", "personal"};
         std::string temp;
@@ -162,41 +162,43 @@ void funciones::nominaEmpleados(const ParametrosVentana &params)
 
     // finaliza la instancia general
     refresh();
-    wattron(win,COLOR_PAIR(1));
+    wattron(win, COLOR_PAIR(1));
     box(win, 0, 0);
-    wattroff(win,COLOR_PAIR(1));
+    wattroff(win, COLOR_PAIR(1));
     wclear(win);
     wrefresh(win);
-    init_pair(1, COLOR_WHITE,COLOR_BLUE);
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
     wattron(win, COLOR_PAIR(1));
     std::string n = usuario.nombre;
     mvwprintw(win, (params.yMAX / 2) - 9, (params.xMAX / 2) - 30, "Nombres: %s", n.c_str());
-    n = usuario.apellido; 
+    n = usuario.apellido;
     mvwprintw(win, (params.yMAX / 2) - 8, (params.xMAX / 2) - 30, "Apellidos: %s", n.c_str());
     n = nombresPuestos[usuario.idPuesto];
-    mvwprintw(win, (params.yMAX / 2) - 7, (params.xMAX / 2) - 30, "Puesto: %s",n.c_str());
+    mvwprintw(win, (params.yMAX / 2) - 7, (params.xMAX / 2) - 30, "Puesto: %s", n.c_str());
     n = usuario.ubicacion;
-    mvwprintw(win, (params.yMAX / 2) - 6, (params.xMAX / 2) - 30, "Direccion: %s",n.c_str());
+    mvwprintw(win, (params.yMAX / 2) - 6, (params.xMAX / 2) - 30, "Direccion: %s", n.c_str());
     fila = 1;
     for (const telefonos &telefono : registros)
     {
-        n =telefono.tipo;
-        std::string m = "Telefono de " + n+ ": " + std::to_string(telefono.numero);
-        mvwprintw(win, (params.yMAX/2) - 6 + fila, (params.xMAX/2)-30, m.c_str());
+        n = telefono.tipo;
+        std::string m = "Telefono de " + n + ": " + std::to_string(telefono.numero);
+        mvwprintw(win, (params.yMAX / 2) - 6 + fila, (params.xMAX / 2) - 30, m.c_str());
         fila++;
     };
-    n=usuario.correo;
+    n = usuario.correo;
     mvwprintw(win, (params.yMAX / 2) - 2, (params.xMAX / 2) - 30, "Correo: %s", n.c_str());
-    n=std::to_string(usuario.antiguedadEmpresa)+" anios";
-    mvwprintw(win, (params.yMAX / 2) - 1, (params.xMAX / 2) - 30, "Experiencia en la empresa: %s",n.c_str());
+    n = std::to_string(usuario.antiguedadEmpresa) + " anios";
+    mvwprintw(win, (params.yMAX / 2) - 1, (params.xMAX / 2) - 30, "Experiencia en la empresa: %s", n.c_str());
     wattroff(win, COLOR_PAIR(1));
-    wattron(win,COLOR_PAIR(1));
-    box(win,0,0);
-    wattroff(win,COLOR_PAIR(1));
+    wattron(win, COLOR_PAIR(1));
+    box(win, 0, 0);
+    wattroff(win, COLOR_PAIR(1));
     std::string msg = " enter para salir ";
     wattron(win, A_REVERSE);
     mvwprintw(win, params.yMAX - 1, (params.xMAX / 2) - (msg.size() / 2), msg.c_str());
     wattroff(win, A_REVERSE);
     wrefresh(win);
     getch();
+    delwin(win);
+    return false;
 };

@@ -3,6 +3,8 @@
 #include <ncurses.h>
 #include<vector>
 #include<string>
+#include<cstdarg>
+#include<string.h>
 std::string userInput(WINDOW *win, int y, int x, const std::string &message);
 class printMenu{
 
@@ -14,6 +16,5 @@ class printMenu{
     int getSelected();
     int selected;
 };
-
 #endif /* MENU_H
  */
